@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>DestinyUnbound</AssemblyName>
+		<RootNamespace>DestinyUnbound</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>$(TaiwuGameRoot)\Backend\0Harmony.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Include="GameData">
+			<HintPath>$(TaiwuGameRoot)\Backend\GameData.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Include="GameData.Common">
+			<HintPath>$(TaiwuGameRoot)\Backend\GameData.Common.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Include="GameData.Shared">
+			<HintPath>$(TaiwuGameRoot)\Backend\GameData.Shared.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Include="TaiwuModdingLib">
+			<HintPath>$(TaiwuGameRoot)\Backend\TaiwuModdingLib.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TaiwuModDir>$(TaiwuGameRoot)\Mod\DestinyUnbound</TaiwuModDir>
+		<ModPackageDir>$(MSBuildProjectDirectory)\..\..\ModPackage</ModPackageDir>
+	</PropertyGroup>
+
+	<Target Name="DeployToTaiwu" AfterTargets="Build" Condition="'$(TaiwuGameRoot)' != ''">
+		<MakeDir Directories="$(ModPackageDir)\Plugins" />
+
+		<Delete Files="$(ModPackageDir)\Plugins\$(TargetFileName)"
+				TreatErrorsAsWarnings="true" />
+
+		<Delete Files="$(TaiwuModDir)\Plugins\$(TargetFileName)"
+				TreatErrorsAsWarnings="true" />
+
+		<Copy SourceFiles="$(TargetPath)"
+				DestinationFiles="$(ModPackageDir)\Plugins\$(TargetFileName)"
+				SkipUnchangedFiles="false" />
+
+		<MakeDir Directories="$(TaiwuModDir)" />
+
+		<ItemGroup>
+			<ModPackageFiles Include="$(ModPackageDir)\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(ModPackageFiles)"
+				DestinationFiles="@(ModPackageFiles->'$(TaiwuModDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+				SkipUnchangedFiles="false" />
+	</Target>
+
+	<Target Name="CleanDeployedFiles" AfterTargets="Clean">
+		<Delete Files="$(ModPackageDir)\Plugins\$(AssemblyName).dll"
+				TreatErrorsAsWarnings="true" />
+
+		<Delete Files="$(ModPackageDir)\Plugins\$(AssemblyName).pdb"
+				TreatErrorsAsWarnings="true" />
+
+		<Delete Files="$(TaiwuModDir)\Plugins\$(AssemblyName).dll"
+				TreatErrorsAsWarnings="true" />
+
+		<Delete Files="$(TaiwuModDir)\Plugins\$(AssemblyName).pdb"
+				TreatErrorsAsWarnings="true" />
+	</Target>
+
+</Project>

@@ -427,3 +427,14 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# =========================
+# Local developer config
+# =========================
+Directory.Build.props
+
+# =========================
+# Generated plugin binaries
+# =========================
+*.dll
+*.pdb

@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Copy this file to Directory.Build.props and change this path to your local Taiwu install path. -->
+    <TaiwuGameRoot>D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu</TaiwuGameRoot>
+  </PropertyGroup>
+</Project>
